@@ -20,7 +20,8 @@ function computerPlay() {
 }
 
 function playerPlay() {
-    let playerSelection = window.prompt("Please enter rock, paper, or scissors.", "Rock").toLowerCase();
+    let playerSelection = window.prompt("Please enter rock, paper, or scissors.", "rock").toLowerCase();
+
     console.log("Player picked " + playerSelection + "!");
     return playerSelection;
 }
@@ -40,7 +41,7 @@ function playRound(playerSelection, computerSelection) {
         case "paper":
             if(computerSelection == "rock") {
                 console.log("Paper beats rock! You win!");
-            } else if (computerSelection = "scissors") {
+            } else if (computerSelection == "scissors") {
                 console.log("Scissors beats paper! You lose! Better luck next time.");
             } else {
                 console.log("Its a draw!");
@@ -50,7 +51,7 @@ function playRound(playerSelection, computerSelection) {
         case "scissors":
             if(computerSelection == "paper") {
                 console.log("Scissors beats paper! You win!");
-            } else if (computerSelection = "rock") {
+            } else if (computerSelection == "rock") {
                 console.log("Rock beats scissors! You lose! Better luck next time.");
             } else {
                 console.log("Its a draw!");
