@@ -31,8 +31,10 @@ function playRound(playerSelection, computerSelection) {
         case "rock":
             if(computerSelection == "scissors") {
                 console.log("Rock beats scissors! You win!");
+                return true;
             } else if (computerSelection == "paper") {
                 console.log("Paper beats rock! You lose! Better luck next time.");
+                return false;
             } else {
                 console.log("Its a draw!");
             }
@@ -41,8 +43,10 @@ function playRound(playerSelection, computerSelection) {
         case "paper":
             if(computerSelection == "rock") {
                 console.log("Paper beats rock! You win!");
+                return true;
             } else if (computerSelection == "scissors") {
                 console.log("Scissors beats paper! You lose! Better luck next time.");
+                return false;
             } else {
                 console.log("Its a draw!");
             }
@@ -51,8 +55,10 @@ function playRound(playerSelection, computerSelection) {
         case "scissors":
             if(computerSelection == "paper") {
                 console.log("Scissors beats paper! You win!");
+                return true;
             } else if (computerSelection == "rock") {
                 console.log("Rock beats scissors! You lose! Better luck next time.");
+                return false;
             } else {
                 console.log("Its a draw!");
             }
@@ -60,15 +66,33 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
+
 function playGame(roundCount) {
+    let playerScore = 0;
+    let computerScore = 0;
+
     for (let i = 1; i <= roundCount; i++) {
         let playerSelection = playerPlay();
         let computerSelection = computerPlay();
 
-        playRound(playerSelection, computerSelection);
-        console.log(`Game ${i}/${roundCount} is now finished. Beginning round #${i + 1}.`);
+        if(playRound(playerSelection, computerSelection) == true) {
+            playerScore++;
+        } else if(playRound(playerSelection, computerSelection) == false) {
+            computerScore++;
+        }
+
+        console.log(`Round ${i}/${roundCount} is now finished. Current score is ${playerScore}/${computerScore}.`);
     }
-    console.log("Game over. Run playGame(number of rounds desired) to play again!");
+
+    
+    console.log(`Game over. Run playGame(number of rounds desired) to play again!`);
+    if(playerScore > computerScore) {
+        console.log(`Player wins with a score of ${playerScore}!`);
+    } else if (computerScore > playerScore) {
+        console.log(`Computer wins with a score of ${computerScore}`);
+    } else {
+        console.log(`It's a tie with a score of ${playerScore}/${computerScore}`);
+    }
 }
 
 playGame(10);
