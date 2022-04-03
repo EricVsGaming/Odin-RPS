@@ -1,3 +1,14 @@
+let playerScore = 0;
+let computerScore = 0;
+let roundCount = 0
+let playerSelection = '';
+let buttons = document.querySelectorAll('.btn');
+buttons.forEach(btn => {    // Adds click event listener to each button
+    btn.addEventListener('click', event => {
+        playGame(event.target.innerText);
+    });
+});
+
 function computerPlay() {
     let randomNum = Math.floor(Math.random() * 3);
     switch(randomNum) {
@@ -20,79 +31,117 @@ function computerPlay() {
 }
 
 function playerPlay() {
-    let playerSelection = window.prompt("Please enter rock, paper, or scissors.", "rock").toLowerCase();
-
-    console.log("Player picked " + playerSelection + "!");
+    let playerSelection = '';
+    let buttons = document.querySelectorAll('.btn');
+    buttons.forEach(btn => {    // Adds click event listener to each button
+        btn.addEventListener('click', event => {
+            playerselection = event.target.innerText;
+        });
+    });
+    
     return playerSelection;
 }
 
 function playRound(playerSelection, computerSelection) {
+    let roundResult = document.querySelector('#result');
+    let gameResult = document.querySelector('#winner'); // To fix current issue of text being overwritten, try making a new element for game winner message
+    if((playerScore + computerScore) >= 10) {
+        console.log(playerScore + computerScore);
+        console.log(typeof (playerScore + computerScore));
+        // if(playerScore > computerScore) {
+        //     gameResult.textContent = 'Game over - Player wins!';
+
+        // } else if (playerScore < computerScore) {
+        //     gameResult.textContent = 'Game over - Computer wins! :[';
+
+        // } else {
+        //     gameResult.textContent = 'Game over - It\'s a draw! :['
+            
+        // }
+        return;
+    }
+
     switch(playerSelection) {
         case "rock":
             if(computerSelection == "scissors") {
-                console.log("Rock beats scissors! You win!");
+                roundResult.innerHTML = "Rock beats scissors - You win!";
                 return true;
             } else if (computerSelection == "paper") {
-                console.log("Paper beats rock! You lose! Better luck next time.");
+                roundResult.innerHTML = "Paper beats rock - You lose!";
                 return false;
             } else {
-                console.log("Its a draw!");
+                roundResult.innerHTML = "Its a draw!";
             }
             break;
         
         case "paper":
             if(computerSelection == "rock") {
-                console.log("Paper beats rock! You win!");
+                roundResult.textContent = "Paper beats rock - You win!";
                 return true;
             } else if (computerSelection == "scissors") {
-                console.log("Scissors beats paper! You lose! Better luck next time.");
+                roundResult.textContent = "Scissors beats paper - You lose!";
                 return false;
             } else {
-                console.log("Its a draw!");
+                roundResult.textContent = "Its a draw!";
             }
             break;
         
         case "scissors":
             if(computerSelection == "paper") {
-                console.log("Scissors beats paper! You win!");
+                roundResult.textContent = "Scissors beats paper - You win!";
                 return true;
             } else if (computerSelection == "rock") {
-                console.log("Rock beats scissors! You lose! Better luck next time.");
+                roundResult.textContent = "Rock beats scissors - You lose!";
                 return false;
             } else {
-                console.log("Its a draw!");
+                gameResult.textContent = "Its a draw!";
             }
             break;
     }
 }
 
+function playGame(playerSelection) {
+    let computerSelection = computerPlay();
+    let score = document.querySelector('.game-output > :first-child');
+    let gameResult = document.querySelector('#winner');
+    
+    switch(playRound(playerSelection, computerSelection)) {
+        case true:
+        playerScore++;
+        break;
 
-function playGame(roundCount) {
-    let playerScore = 0;
-    let computerScore = 0;
-
-    for (let i = 1; i <= roundCount; i++) {
-        let playerSelection = playerPlay();
-        let computerSelection = computerPlay();
-
-        if(playRound(playerSelection, computerSelection) == true) {
-            playerScore++;
-        } else if(playRound(playerSelection, computerSelection) == false) {
-            computerScore++;
-        }
-
-        console.log(`Round ${i}/${roundCount} is now finished. Current score is ${playerScore}/${computerScore}.`);
+        case false:
+        computerScore++;
+        break;
+        
     }
 
-    
-    console.log(`Game over. Run playGame(number of rounds desired) to play again!`);
-    if(playerScore > computerScore) {
-        console.log(`Player wins with a score of ${playerScore}!`);
-    } else if (computerScore > playerScore) {
-        console.log(`Computer wins with a score of ${computerScore}`);
-    } else {
-        console.log(`It's a tie with a score of ${playerScore}/${computerScore}`);
+    score.textContent = `Score: ${playerScore} | ${computerScore}`
+    if(playerScore + computerScore >= 10) {
+        if(playerScore > computerScore) {
+            gameResult.textContent = 'Game over - Player wins!';
+
+        } else if (playerScore < computerScore) {
+            gameResult.textContent = 'Game over - Computer wins! :[';
+
+        } else {
+            gameResult.textContent = 'Game over - It\'s a draw! :['
+            
+        }
+        playerScore = 0;
+        computerScore = 0;
     }
 }
 
-playGame(10);
+    
+    // console.log(`Game over. Run playGame(number of rounds desired) to play again!`); // This too
+    // if(playerScore > computerScore) { // And all of this
+    //     console.log(`Player wins with a score of ${playerScore}!`);
+    // } else if (computerScore > playerScore) {
+    //     console.log(`Computer wins with a score of ${computerScore}`);
+    // } else {
+    //     console.log(`It's a tie with a score of ${playerScore}/${computerScore}`);
+    // }
+
+
+
